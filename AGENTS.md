@@ -40,7 +40,7 @@ The directory has to be a git repository. Without one Tailwind's scanner skipped
 - `app/utils/libraries.ts` is the only source of truth: key, description, group, status, icon, accent, docs site, providers, surfaces. Landing grid, constellation, rotating code sample, sidebar icons, `::library-facts` and the generated pages all read from it.
 - `status` is `docs` (has a site), `npm` (published, README is the reference) or `soon` (private repo, nothing public). Only `docs` and `npm` rows get links, a `soon` card isn't a link at all.
 - After editing the table run `pnpm libraries`. The generated pages are committed. Don't edit them by hand, the generator deletes and rewrites `NN.<key>.md`.
-- Provider lists mirror `src/providers` in each repo, surfaces mirror what the package ships (`bin`, `./ai`, `./mcp`, `packages/pi`, `packages/omp`). Check the repo before changing a row, guessing here is how wrong facts end up on a public page.
+- Provider lists mirror `src/providers` in each repo, surfaces mirror what the package ships (`bin`, `./ai`, the `mcp` command, `packages/pi`, `packages/omp`). Check the repo before changing a row, guessing here is how wrong facts end up on a public page.
 - `LandingRotatingCode.vue` holds one call per published library. Every symbol has to exist in that package's `src/index.ts`.
 
 ## SEO
