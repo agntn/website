@@ -22,7 +22,7 @@ export interface LibraryInfo {
   readonly accent: string;
   /** Docs site, when the library has one. */
   readonly site: string | null;
-  /** Providers, platforms or chains the library speaks to. */
+  /** Providers, platforms or chains the library speaks to. A trailing `+N` stands for N more that the row leaves unnamed. */
   readonly providers: readonly string[];
   /** Surfaces the package ships: library, cli, ai, mcp, pi, omp. */
   readonly surfaces: readonly string[];
