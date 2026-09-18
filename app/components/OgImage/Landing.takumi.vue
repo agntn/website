@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { LIBRARIES as CATALOGUE } from "../../utils/libraries";
+
 /** Overrides the Docus landing template; Takumi has no CSS variables, so theme tokens are literals. */
 /** The props are what Docus passes; the tagline is fixed because Docus strips commas from the description. */
 defineProps<{ title?: string; description?: string }>();
@@ -7,7 +9,7 @@ const TAGLINE = "Agnostic TypeScript libraries for AI agents and humans. One int
 
 const { name: siteName } = useSiteConfig();
 
-const LIBRARIES = ["web", "archives", "registries", "forges", "keys", "+16"];
+const LIBRARIES = [...CATALOGUE.slice(0, 5).map((library) => library.key), `+${CATALOGUE.length - 5}`];
 </script>
 
 <template>
