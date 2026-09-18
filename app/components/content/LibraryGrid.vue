@@ -36,9 +36,12 @@ const gridClass = computed(() =>
   String(props.columns) === "2" ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
 );
 
+/** The first four providers and how many the card leaves out, a trailing `+N` row counted as N. */
 function tail(library: (typeof LIBRARIES)[number]) {
-  const shown = library.providers.slice(0, 4);
-  const rest = library.providers.length - shown.length;
+  const named = library.providers.filter((name) => !name.startsWith("+"));
+  const unnamed = library.providers.filter((name) => name.startsWith("+")).reduce((sum, name) => sum + Number(name.slice(1)), 0);
+  const shown = named.slice(0, 4);
+  const rest = named.length - shown.length + unnamed;
   return rest > 0 ? `${shown.join(" · ")} +${rest}` : shown.join(" · ");
 }
 </script>
