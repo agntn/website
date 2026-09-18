@@ -82,14 +82,14 @@ export const LIBRARIES: readonly LibraryInfo[] = [
   }),
   define({
     key: "keys",
-    description: "Key generation, HD derivation, addresses and message signing for Bitcoin, Ethereum, Solana, Tron, Aptos, Sui, Cardano, Base, Litecoin and Decred.",
+    description: "Key generation, HD derivation, addresses and message signing for Bitcoin, Ethereum, Solana, Stellar, Tron, Aptos, Sui, Cardano, Base, Litecoin and Decred.",
     group: "chain",
     status: "docs",
     icon: "i-lucide-key-round",
     color: "sky",
     accent: "#7dd3fc",
     site: "https://keys.agntn.dev",
-    providers: ["Bitcoin", "Ethereum", "Base", "Solana", "Tron", "Aptos", "Sui", "Cardano", "Litecoin", "Decred"],
+    providers: ["Bitcoin", "Ethereum", "Base", "Solana", "Stellar", "Tron", "Aptos", "Sui", "Cardano", "Litecoin", "Decred"],
     surfaces: ["library", "cli", "mcp", "pi"],
   }),
   define({
@@ -113,7 +113,7 @@ export const LIBRARIES: readonly LibraryInfo[] = [
     color: "cyan",
     accent: "#67e8f9",
     site: "https://explorers.agntn.dev",
-    providers: ["Etherscan", "Blockscout", "Blockchair", "Blockstream", "Mempool", "Solscan", "Helius", "Tronscan", "TON", "Aptos", "Koios", "Blockberry", "Arweave", "dcrdata"],
+    providers: ["Etherscan", "Blockscout", "Blockchair", "Blockstream", "Mempool", "Solscan", "Helius", "Tronscan", "TON", "Aptos", "Koios", "Blockberry", "Arweave", "dcrdata", "Horizon"],
     surfaces: ["library", "cli", "mcp", "pi", "omp"],
   }),
   define({
@@ -125,7 +125,7 @@ export const LIBRARIES: readonly LibraryInfo[] = [
     color: "indigo",
     accent: "#a5b4fc",
     site: "https://chains.agntn.dev",
-    providers: ["Bitcoin", "Ethereum", "Base", "Arbitrum", "Optimism", "Polygon", "Solana", "Stellar", "TON", "Tron", "Aptos", "Sui", "Cardano", "XRPL", "+15"],
+    providers: ["Bitcoin", "Ethereum", "Base", "Arbitrum", "Optimism", "Polygon", "Solana", "Stellar", "TON", "Tron", "Aptos", "Sui", "Cardano", "XRPL", "+16"],
     surfaces: ["library", "cli", "mcp", "pi", "omp"],
   }),
   define({
@@ -142,14 +142,14 @@ export const LIBRARIES: readonly LibraryInfo[] = [
   }),
   define({
     key: "puzzles",
-    description: "Public crypto puzzles and bounties as typed records. Addresses, key material, solvers and live balances for ten collections on five chains.",
+    description: "Public crypto puzzles and bounties as typed records. Addresses, key material, solvers and live balances for eleven collections on five chains.",
     group: "chain",
     status: "docs",
     icon: "i-lucide-puzzle",
     color: "amber",
     accent: "#fcd34d",
     site: "https://puzzles.agntn.dev",
-    providers: ["Bitcoin puzzle transaction", "RushWallet", "Zden", "Arweave", "WarpWallet", "Hash collision", "Ballet", "Bitimage", "Bitaps", "GSMG.io"],
+    providers: ["Bitcoin puzzle transaction", "RushWallet", "Zden", "Arweave", "WarpWallet", "Hash collision", "Ballet", "Bitimage", "Bitaps", "GSMG.io", "Bitcoin Movie Enigma"],
     surfaces: ["library", "cli", "mcp", "pi", "omp"],
   }),
   define({
