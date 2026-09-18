@@ -198,7 +198,7 @@ export const LIBRARIES: readonly LibraryInfo[] = [
     accent: "#5eead4",
     site: null,
     providers: ["Wayback", "Common Crawl", "Arquivo.pt", "Vefsafn", "URLScan", "VirusTotal", "AlienVault"],
-    surfaces: ["library", "cli", "mcp", "pi", "omp"],
+    surfaces: ["library", "cli", "ai", "mcp", "pi", "omp"],
   }),
   define({
     key: "nodes",
