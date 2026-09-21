@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { STATUS_LABEL, findLibrary } from "../../utils/libraries";
+import { STATUS_LABEL, findLibrary, providerPhrase } from "../../utils/libraries";
 import { librarySchema } from "../../utils/schema";
 
 const props = defineProps<{ name: string }>();
@@ -41,7 +41,7 @@ const links = computed(() => {
           {{ STATUS_LABEL[library.status] }}
         </dd>
         <dt>providers</dt>
-        <dd>{{ library.providers.join(", ") }}</dd>
+        <dd>{{ library.providers.map(providerPhrase).join(", ") }}</dd>
         <dt>surfaces</dt>
         <dd class="font-mono text-[13px]">{{ library.surfaces.join(" · ") }}</dd>
         <template v-if="library.status !== 'soon'">

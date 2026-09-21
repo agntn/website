@@ -1,4 +1,4 @@
-import type { LibraryInfo } from "./libraries";
+import { namedProviders, type LibraryInfo } from "./libraries";
 
 export const SITE_URL = "https://agntn.dev";
 
@@ -19,7 +19,7 @@ export function librarySchema(library: LibraryInfo) {
     license: "https://opensource.org/licenses/MIT",
     isAccessibleForFree: true,
     sameAs: [`https://www.npmjs.com/package/@agntn/${library.key}`, ...(library.site ? [library.site] : [])],
-    keywords: library.providers.filter((name) => !name.startsWith("+")),
+    keywords: namedProviders(library.providers),
     publisher: { "@id": ORGANIZATION_ID },
   };
 }
