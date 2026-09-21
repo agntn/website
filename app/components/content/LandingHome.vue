@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { GROUPS, LIBRARIES, PUBLIC_LIBRARIES, SURFACES } from "../../utils/libraries";
+import { GROUPS, LIBRARIES, PUBLIC_LIBRARIES, SURFACES, namedProviders } from "../../utils/libraries";
 
 const { tick, paused, current, step } = useLandingClock();
 
-const providerCount = new Set(LIBRARIES.flatMap((library) => library.providers.filter((name) => !name.startsWith("+")))).size;
+const providerCount = new Set(LIBRARIES.flatMap((library) => namedProviders(library.providers))).size;
 
 const stats = [
   { value: String(LIBRARIES.length), label: "libraries" },

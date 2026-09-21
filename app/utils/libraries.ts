@@ -31,6 +31,30 @@ export interface LibraryInfo {
 
 const define = (row: Omit<LibraryInfo, "to">): LibraryInfo => ({ ...row, to: `/libraries/${row.key}` });
 
+const PROVIDER_OVERFLOW = /^\+(\d+)$/;
+
+/** Extra count in a trailing `+N` row, or null for a real name. */
+export function providerOverflow(name: string): number | null {
+  const match = PROVIDER_OVERFLOW.exec(name);
+  return match ? Number(match[1]) : null;
+}
+
+/** Names from the row. A trailing `+N` is not one of them. */
+export function namedProviders(providers: readonly string[]): string[] {
+  return providers.filter((name) => providerOverflow(name) === null);
+}
+
+/** Providers a trailing `+N` row leaves unnamed. */
+export function unnamedProviderCount(providers: readonly string[]): number {
+  return providers.reduce((sum, name) => sum + (providerOverflow(name) ?? 0), 0);
+}
+
+/** A row as prose. `+16` reads "and 16 more". */
+export function providerPhrase(name: string): string {
+  const extra = providerOverflow(name);
+  return extra === null ? name : `and ${extra} more`;
+}
+
 export const LIBRARIES: readonly LibraryInfo[] = [
   define({
     key: "web",

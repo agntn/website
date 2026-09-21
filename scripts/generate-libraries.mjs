@@ -1,7 +1,7 @@
 /** Writes one page per library into content/2.libraries from the catalogue. Run `pnpm libraries` after editing it. */
 import { mkdir, readdir, unlink, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
-import { LIBRARIES, STATUS_LABEL } from "../app/utils/libraries.ts";
+import { LIBRARIES, STATUS_LABEL, providerPhrase } from "../app/utils/libraries.ts";
 
 const dir = fileURLToPath(new URL("../content/2.libraries/", import.meta.url));
 await mkdir(dir, { recursive: true });
@@ -48,7 +48,7 @@ navigation:
 ${install}
 ## Providers
 
-${library.providers.map((provider) => (provider.startsWith("+") ? `- and ${provider.slice(1)} more` : `- ${provider}`)).join("\n")}
+${library.providers.map((provider) => `- ${providerPhrase(provider)}`).join("\n")}
 
 ## Status
 
