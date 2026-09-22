@@ -1,16 +1,24 @@
 <script setup lang="ts">
 import type { LibraryInfo } from "../../utils/libraries";
 
-/** One real call per published library, checked against its `src/index.ts`. Nothing here runs. */
+/** One real call per published library, checked against what that package exports. Nothing here runs. */
 const props = defineProps<{ library: LibraryInfo }>();
 
 interface Snippet {
-  /** Named import from the package root. */
+  /** Imported symbol, named unless `defaultImport` is set. */
   symbol: string;
+  /** Subpath after the package name, for a package that exports no root. */
+  path?: string;
+  /** Default import instead of a named one. */
+  defaultImport?: boolean;
+  /** File the snippet would live in. */
+  file?: string;
   /** Expression that builds the object the call runs on, empty for a free function. */
   setup: string;
-  /** The call, made on `provider` when `setup` is set. */
+  /** The call, made on `provider` when `setup` is set. Empty when `exported` carries the usage. */
   call: string;
+  /** Object the snippet exports, for a package that is configuration rather than a call. */
+  exported?: string;
   result: string;
 }
 
@@ -26,6 +34,18 @@ const SNIPPETS: Record<string, Snippet> = {
   ciphers: { symbol: "create", setup: 'create("vigenere")', call: 'decode("LXFOPVEFRNHR", { key: "LEMON" })', result: '{ text: "ATTACKATDAWN", cipher: "vigenere" }' },
   puzzles: { symbol: "get", setup: "", call: 'get("b1000/71")', result: "Puzzle | undefined, with address(), keyRange() and balance()" },
   browsers: { symbol: "create", setup: 'create("steel")', call: 'scrape("https://nuxt.com")', result: "{ url, title, markdown, text, statusCode }" },
+  urls: { symbol: "create", setup: 'await create("wayback")', call: 'discover("nuxt.com", { limit: 50 })', result: "[{ url, source, input, ext }], deduplicated and in scope" },
+  lyrics: { symbol: "create", setup: 'create("lrclib")', call: 'lyrics({ artist: "Radiohead", track: "Nude" })', result: "{ provider, artist, track, plain, synced }" },
+  ox: {
+    symbol: "oxlint",
+    path: "/oxlint",
+    defaultImport: true,
+    file: "oxlint.config.ts",
+    setup: "",
+    call: "",
+    exported: '{ ...oxlint, ignorePatterns: ["dist"] }',
+    result: "the shared rules, options and all, plus one repo-local setting",
+  },
 };
 
 const snippet = computed<Snippet>(() => SNIPPETS[props.library.key] ?? { symbol: "create", setup: "", call: "…", result: "…" });
@@ -36,7 +56,7 @@ const snippet = computed<Snippet>(() => SNIPPETS[props.library.key] ?? { symbol:
     <div class="flex items-center justify-between border-b border-muted bg-default px-4 py-2.5">
       <span class="flex items-center gap-2 font-mono text-[11px] text-dimmed">
         <UIcon name="i-vscode-icons-file-type-typescript" class="size-4" />
-        agent.ts
+        {{ snippet.file ?? "agent.ts" }}
       </span>
       <span class="org-chip org-chip-small">
         <span class="org-dot" :style="{ '--lib': library.accent }" />
@@ -44,8 +64,9 @@ const snippet = computed<Snippet>(() => SNIPPETS[props.library.key] ?? { symbol:
       </span>
     </div>
     <Transition name="org-roll" mode="out-in">
-      <pre :key="library.key" class="org-rotating"><span class="tok-kw">import</span> { <span class="tok-key">{{ snippet.symbol }}</span> } <span class="tok-kw">from</span> <span class="tok-str">"@agntn/{{ library.key }}"</span>;
-<template v-if="snippet.setup">
+      <pre :key="library.key" class="org-rotating"><span class="tok-kw">import</span> <template v-if="snippet.defaultImport"><span class="tok-key">{{ snippet.symbol }}</span></template><template v-else>{ <span class="tok-key">{{ snippet.symbol }}</span> }</template> <span class="tok-kw">from</span> <span class="tok-str">"@agntn/{{ library.key }}{{ snippet.path ?? "" }}"</span>;
+<template v-if="snippet.exported">
+<span class="tok-kw">export default</span> {{ snippet.exported }};</template><template v-else-if="snippet.setup">
 <span class="tok-kw">const</span> provider = <span class="tok-fn">{{ snippet.setup }}</span>;
 <span class="tok-kw">const</span> answer = <span class="tok-kw">await</span> provider.<span class="tok-fn">{{ snippet.call }}</span>;</template><template v-else>
 <span class="tok-kw">const</span> answer = <span class="tok-kw">await</span> <span class="tok-fn">{{ snippet.call }}</span>;</template>

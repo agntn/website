@@ -37,11 +37,12 @@ The directory has to be a git repository. Without one Tailwind's scanner skipped
 
 ## The catalogue
 
-- `app/utils/libraries.ts` is the only source of truth: key, description, group, status, icon, accent, docs site, providers, surfaces. Landing grid, constellation, rotating code sample, sidebar icons, `::library-facts` and the generated pages all read from it.
-- `status` is `docs` (has a site), `npm` (published, README is the reference) or `soon` (private repo, nothing public). Only `docs` and `npm` rows get links, a `soon` card isn't a link at all.
+- `app/utils/libraries.ts` is the only source of truth: key, description, group, status, icon, accent, docs site, public repo, providers, surfaces. Landing grid, constellation, rotating code sample, sidebar icons, `::library-facts` and the generated pages all read from it.
+- `status` is `docs` (has a site), `npm` (published, README is the reference) or `soon` (nothing on npm yet). Only `docs` and `npm` rows get links, a `soon` card isn't a link at all.
+- `repo` says whether the GitHub repository is public. A package can be on npm while its repo stays private, so the GitHub link, the `codeRepository` in the JSON-LD and the wording of `## Status` all hang off that flag, not off `status`.
 - After editing the table run `pnpm libraries`. The generated pages are committed. Don't edit them by hand, the generator deletes and rewrites `NN.<key>.md`.
 - Provider lists mirror `src/providers` in each repo, surfaces mirror what the package ships (`bin`, `./ai`, the `mcp` command, `packages/pi`, `packages/omp`). Check the repo before changing a row, guessing here is how wrong facts end up on a public page.
-- `LandingRotatingCode.vue` holds one call per published library. Every symbol has to exist in that package's `src/index.ts`.
+- `LandingRotatingCode.vue` holds one call per published library. Every symbol has to exist in what that package exports, from the root or from the subpath the snippet names.
 
 ## SEO
 
