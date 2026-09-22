@@ -18,10 +18,10 @@ const links = computed(() => {
   if (!library.value || library.value.status === "soon") {
     return [];
   }
-  const rows = [
-    { label: "GitHub", href: `https://github.com/agntn/${library.value.key}`, icon: "i-simple-icons-github" },
-    { label: "npm", href: `https://www.npmjs.com/package/@agntn/${library.value.key}`, icon: "i-simple-icons-npm" },
-  ];
+  const rows = [{ label: "npm", href: `https://www.npmjs.com/package/@agntn/${library.value.key}`, icon: "i-simple-icons-npm" }];
+  if (library.value.repo) {
+    rows.unshift({ label: "GitHub", href: `https://github.com/agntn/${library.value.key}`, icon: "i-simple-icons-github" });
+  }
   if (library.value.site) {
     rows.unshift({ label: library.value.site.replace("https://", ""), href: library.value.site, icon: "i-lucide-book-open" });
   }

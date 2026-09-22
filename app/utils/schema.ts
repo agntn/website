@@ -13,7 +13,7 @@ export function librarySchema(library: LibraryInfo) {
     name: `@agntn/${library.key}`,
     description: library.description,
     url: `${SITE_URL}${library.to}`,
-    codeRepository: `https://github.com/agntn/${library.key}`,
+    ...(library.repo ? { codeRepository: `https://github.com/agntn/${library.key}` } : {}),
     programmingLanguage: "TypeScript",
     runtimePlatform: "Node.js",
     license: "https://opensource.org/licenses/MIT",
