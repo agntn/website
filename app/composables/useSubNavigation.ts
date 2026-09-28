@@ -11,15 +11,7 @@ const NAV_ICONS: Record<string, string> = {
   ...Object.fromEntries(LIBRARIES.map((library) => [library.to, library.icon])),
 };
 
-export function getFirstPagePath(item: ContentNavigationItem): string {
-  let current = item;
-  while (current.children?.length) {
-    current = current.children[0]!;
-  }
-  return current.path;
-}
-
-function withIcons(items: ContentNavigationItem[]): ContentNavigationItem[] {
+function withIcons(items: readonly ContentNavigationItem[]): ContentNavigationItem[] {
   return items.map((item) => ({
     ...item,
     icon: NAV_ICONS[item.path] ?? item.icon,
@@ -29,51 +21,14 @@ function withIcons(items: ContentNavigationItem[]): ContentNavigationItem[] {
   }));
 }
 
-export function useSubNavigation(
-  providedNavigation?: Ref<ContentNavigationItem[] | null | undefined>,
-) {
-  const route = useRoute();
-  const appConfig = useAppConfig();
-  const navigation = providedNavigation ?? inject<Ref<ContentNavigationItem[]>>("navigation");
-
-  const isDocsPage = computed(() => route.meta.layout === "docs");
-
-  const subNavigationMode = computed(() => {
-    if (!isDocsPage.value) return undefined;
-    return (appConfig.navigation as { sub?: "header" | "aside" } | undefined)?.sub;
-  });
-
-  const currentSection = computed(() => {
-    if (!subNavigationMode.value || !navigation?.value) return undefined;
-    return navigation.value.find(
-      (item) => route.path === item.path || route.path.startsWith(`${item.path}/`),
-    );
-  });
-
-  const sections = computed(() => {
-    if (!subNavigationMode.value || !navigation?.value) return [];
-    return navigation.value
-      .filter((item) => item.children?.length)
-      .map((item) => ({
-        label: item.title,
-        icon: (NAV_ICONS[item.path] ?? item.icon) as string | undefined,
-        to: getFirstPagePath(item),
-        active: route.path === item.path || route.path.startsWith(`${item.path}/`),
-      }));
-  });
-
-  const sidebarNavigation = computed(() => {
-    const items =
-      subNavigationMode.value && currentSection.value
-        ? currentSection.value.children || []
-        : navigation?.value || [];
-    return withIcons(items);
-  });
-
-  return {
-    subNavigationMode,
-    sections,
-    currentSection,
-    sidebarNavigation,
-  };
+/**
+ * The navigation with this site's icons. Both sections are also the header's areas, so the sidebar
+ * holds all of them and there is no tab row.
+ *
+ * @returns {object} `sidebarNavigation`, which the mobile menu shows as well.
+ */
+export function useSubNavigation() {
+  const navigation = inject<Ref<ContentNavigationItem[]>>("navigation");
+  const sidebarNavigation = computed(() => withIcons(navigation?.value ?? []));
+  return { sidebarNavigation };
 }

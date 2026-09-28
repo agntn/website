@@ -1,4 +1,5 @@
 import { fileURLToPath } from "node:url";
+import { orgTheme } from "./shiki-theme";
 
 export default defineNuxtConfig({
   extends: ["docus"],
@@ -12,6 +13,12 @@ export default defineNuxtConfig({
   },
   llms: {
     domain: "https://agntn.dev",
+  },
+  /** Docus pages define their own OG images; the alt text is the one thing they leave unset. */
+  ogImage: {
+    defaults: {
+      alt: "agntn: one interface, every provider",
+    },
   },
   icon: {
     clientBundle: {
@@ -76,8 +83,7 @@ export default defineNuxtConfig({
         { rel: "manifest", href: "/site.webmanifest" },
       ],
       meta: [
-        { name: "theme-color", media: "(prefers-color-scheme: dark)", content: "#0b0d10" },
-        { name: "theme-color", media: "(prefers-color-scheme: light)", content: "#eef1f4" },
+        { name: "theme-color", content: "#0b0d10" },
         { name: "apple-mobile-web-app-title", content: "agntn" },
       ],
     },
@@ -103,8 +109,8 @@ export default defineNuxtConfig({
   css: ["~/assets/fonts.css"],
   fonts: {
     families: [
-      { name: "Space Grotesk", provider: "local", weights: [400, 500, 600] },
-      { name: "Space Mono", provider: "local", weights: [400, 700] },
+      { name: "Figtree", provider: "local", weights: [400, 500] },
+      { name: "Fira Code", provider: "local", weights: [400, 500] },
     ],
   },
   content: {
@@ -116,9 +122,9 @@ export default defineNuxtConfig({
       markdown: {
         highlight: {
           theme: {
-            default: "github-light",
-            light: "github-light",
-            dark: "poimandres",
+            default: orgTheme,
+            light: orgTheme,
+            dark: orgTheme,
           },
         },
       },

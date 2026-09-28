@@ -1,6 +1,6 @@
 import { PUBLIC_LIBRARIES } from "../utils/libraries";
 
-/** One clock for every landing panel: the constellation, the grid and the code sample follow the same library. */
+/** One clock for every landing panel: the library instrument, the registry and the code sample follow the same library. */
 export function useLandingClock(intervalMs = 3200) {
   const index = ref(0);
   const tick = ref(0);
@@ -16,6 +16,8 @@ export function useLandingClock(intervalMs = 3200) {
   let timer: ReturnType<typeof setInterval> | undefined;
 
   onMounted(() => {
+    /** Reduced motion stops the walk; previous and next still step by hand. */
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     timer = setInterval(() => {
       if (!paused.value) {
         step();
