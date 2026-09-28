@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { LibraryInfo } from "../../utils/libraries";
+import { PUBLIC_LIBRARIES, type LibraryInfo } from "../../utils/libraries";
+import { tokens } from "../../utils/tokens";
 
 /** One real call per published library, checked against what that package exports. Nothing here runs. */
 const props = defineProps<{ library: LibraryInfo }>();
@@ -23,17 +24,17 @@ interface Snippet {
 }
 
 const SNIPPETS: Record<string, Snippet> = {
-  web: { symbol: "create", setup: 'create("brave")', call: 'search({ query: "typescript 7 native", maxResults: 5 })', result: "{ results: [{ url, title, snippet }], ignoredFilters: [] }" },
+  web: { symbol: "create", setup: 'await create("brave")', call: 'search("typescript 7 native", { maxResults: 5 })', result: "[{ url, title, snippet }], the same shape from every engine" },
   archives: { symbol: "createArchive", setup: 'createArchive("wayback")', call: 'snapshots("nuxt.com", { limit: 10 })', result: "{ success: true, pages: [{ url, timestamp, snapshot }] }" },
   registries: { symbol: "fetchPackageFromPURL", setup: "", call: 'fetchPackageFromPURL("pkg:npm/lodash")', result: "{ name, version, license, repository }" },
-  forges: { symbol: "createProvider", setup: 'createProvider("github")', call: 'pullRequests.list("agntn", "web")', result: "{ items: [{ number, title, state }], hasNextPage }" },
+  forges: { symbol: "createProvider", setup: 'await createProvider("github")', call: 'pullRequests.list("agntn", "web")', result: "{ items: [{ number, title, state }], hasNextPage }" },
   keys: { symbol: "blockchains", setup: "await blockchains.bitcoin()()", call: "generateWallet()", result: "{ address, keyPublic, keyPrivate } as a Wallet" },
   harnesses: { symbol: "detectHarness", setup: "", call: "detectHarness(process.cwd())", result: "Harness | null, with binary, config and session paths" },
   explorers: { symbol: "create", setup: 'await create("etherscan")', call: 'getBalance("0xd8dA…6045")', result: "{ address, chain, balance, fetchedAt }" },
   chains: { symbol: "identify", setup: "", call: 'identify("0xd8dA…6045")', result: "{ matches: [Ethereum, Base, …], unchecked: [] }" },
   ciphers: { symbol: "create", setup: 'create("vigenere")', call: 'decode("LXFOPVEFRNHR", { key: "LEMON" })', result: '{ text: "ATTACKATDAWN", cipher: "vigenere" }' },
   puzzles: { symbol: "get", setup: "", call: 'get("b1000/71")', result: "Puzzle | undefined, with address(), keyRange() and balance()" },
-  browsers: { symbol: "create", setup: 'create("steel")', call: 'scrape("https://nuxt.com")', result: "{ url, title, markdown, text, statusCode }" },
+  browsers: { symbol: "create", setup: 'await create("steel")', call: 'scrape("https://nuxt.com")', result: "{ url, title, markdown, text, statusCode }" },
   urls: { symbol: "create", setup: 'await create("wayback")', call: 'discover("nuxt.com", { limit: 50 })', result: "[{ url, source, input, ext }], deduplicated and in scope" },
   lyrics: { symbol: "create", setup: 'create("lrclib")', call: 'lyrics({ artist: "Radiohead", track: "Nude" })', result: "{ provider, artist, track, plain, synced }" },
   ox: {
@@ -48,30 +49,162 @@ const SNIPPETS: Record<string, Snippet> = {
   },
 };
 
-const snippet = computed<Snippet>(() => SNIPPETS[props.library.key] ?? { symbol: "create", setup: "", call: "…", result: "…" });
+/**
+ * The file a snippet would be, one string per line.
+ *
+ * @param {string} key - The library key.
+ * @returns {string[]} The lines, blank ones included.
+ */
+function fileLines(key: string): string[] {
+  const snippet = SNIPPETS[key];
+  if (!snippet) return [];
+  const symbol = snippet.defaultImport ? snippet.symbol : `{ ${snippet.symbol} }`;
+  const lines = [`import ${symbol} from "@agntn/${key}${snippet.path ?? ""}";`, ""];
+  if (snippet.exported) {
+    lines.push(`export default ${snippet.exported};`);
+  } else if (snippet.setup) {
+    lines.push(`const provider = ${snippet.setup};`, `const answer = await provider.${snippet.call};`);
+  } else {
+    lines.push(`const answer = await ${snippet.call};`);
+  }
+  lines.push("", `// ${snippet.result}`);
+  return lines;
+}
+
+/** Every sample, so the hidden copies under the shown one give the file the height of the longest. */
+const files = PUBLIC_LIBRARIES.map((row) => ({
+  key: row.key,
+  name: SNIPPETS[row.key]?.file ?? "agent.ts",
+  lines: fileLines(row.key),
+}));
+const current = computed(() => files.find((file) => file.key === props.library.key) ?? files[0]!);
+
+const { copied, copy } = useCopied();
 </script>
 
 <template>
-  <div class="org-frame overflow-hidden rounded-xl">
-    <div class="flex items-center justify-between border-b border-muted bg-default px-4 py-2.5">
-      <span class="flex items-center gap-2 font-mono text-[11px] text-dimmed">
-        <UIcon name="i-vscode-icons-file-type-typescript" class="size-4" />
-        {{ snippet.file ?? "agent.ts" }}
-      </span>
-      <span class="org-chip org-chip-small">
-        <span class="org-dot" :style="{ '--lib': library.accent }" />
-        @agntn/{{ library.key }}
-      </span>
-    </div>
-    <Transition name="org-roll" mode="out-in">
-      <pre :key="library.key" class="org-rotating"><span class="tok-kw">import</span> <template v-if="snippet.defaultImport"><span class="tok-key">{{ snippet.symbol }}</span></template><template v-else>{ <span class="tok-key">{{ snippet.symbol }}</span> }</template> <span class="tok-kw">from</span> <span class="tok-str">"@agntn/{{ library.key }}{{ snippet.path ?? "" }}"</span>;
-<template v-if="snippet.exported">
-<span class="tok-kw">export default</span> {{ snippet.exported }};</template><template v-else-if="snippet.setup">
-<span class="tok-kw">const</span> provider = <span class="tok-fn">{{ snippet.setup }}</span>;
-<span class="tok-kw">const</span> answer = <span class="tok-kw">await</span> provider.<span class="tok-fn">{{ snippet.call }}</span>;</template><template v-else>
-<span class="tok-kw">const</span> answer = <span class="tok-kw">await</span> <span class="tok-fn">{{ snippet.call }}</span>;</template>
+  <section class="tool-console landing-call" aria-label="The same call shape in every library">
+    <span class="console-cross console-cross-tl" aria-hidden="true">+</span>
+    <span class="console-cross console-cross-br" aria-hidden="true">+</span>
+    <header class="console-bar">
+      <span class="console-title"><span class="console-tag">File</span>{{ current.name }}</span>
+      <span class="console-meta">@agntn/{{ current.key }}</span>
+      <span class="console-mark" aria-hidden="true" />
+    </header>
+    <div class="console-ruler" aria-hidden="true"><span :key="current.key" class="console-cursor" /></div>
 
-<span class="tok-cm">// {{ snippet.result }}</span></pre>
-    </Transition>
-  </div>
+    <div class="console-band">
+      <p class="console-label console-rule-title">
+        <span>Call <span aria-hidden="true">[ as written ]</span></span>
+        <span class="console-mark" aria-hidden="true" />
+        <UButton
+          color="neutral"
+          variant="subtle"
+          :icon="copied === 'call' ? 'i-lucide-check' : 'i-lucide-copy'"
+          :label="copied === 'call' ? 'copied' : 'copy'"
+          :aria-label="copied === 'call' ? 'Copied' : 'Copy the call'"
+          @click="copy('call', current.lines.join('\n'))"
+        />
+      </p>
+      <div class="call-stack">
+        <!-- prettier-ignore -->
+        <pre
+          v-for="file in files"
+          :key="file.key"
+          class="console-snippet call-file"
+          :aria-hidden="file.key !== current.key"
+          :data-shown="file.key === current.key"
+        ><code><span v-for="(line, index) in file.lines" :key="index" class="call-line"><span class="call-no" aria-hidden="true">{{ index + 1 }}</span><span class="call-text"><span v-for="(token, part) in tokens(line)" :key="part" :class="token.cls">{{ token.text }}</span></span></span></code></pre>
+      </div>
+      <dl class="call-leads">
+        <dd class="console-lead">
+          <span class="console-tag">Install</span>
+          <code class="call-lead-value">pnpm add @agntn/{{ library.key }}</code>
+          <span class="console-leader" aria-hidden="true" />
+        </dd>
+        <dd class="console-lead">
+          <span class="console-tag">Docs</span>
+          <code class="call-lead-value">{{ library.site ? library.site.replace("https://", "") : "README on npm" }}</code>
+          <span class="console-leader" aria-hidden="true" />
+        </dd>
+      </dl>
+    </div>
+
+    <footer class="console-footer console-footer-plain">
+      <span>Real exports / nothing here runs</span>
+      <NuxtLink :to="library.to" class="call-link"><span aria-hidden="true">→ </span>@agntn/{{ library.key }}</NuxtLink>
+    </footer>
+  </section>
 </template>
+
+<style scoped>
+.landing-call {
+  width: 100%;
+  max-width: 35rem;
+}
+.landing-call .console-rule-title {
+  margin: 0 0 12px;
+}
+.call-stack {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.call-file {
+  grid-area: 1 / 1;
+  visibility: hidden;
+  padding-left: 0;
+  font-size: 11.5px;
+  white-space: pre;
+}
+.call-file[data-shown="true"] {
+  visibility: visible;
+}
+/* The number and the code in two columns: an ellipsis on the line itself would hide a ::before number. */
+.call-line {
+  display: grid;
+  grid-template-columns: 2.25em minmax(0, 1fr);
+  gap: 1em;
+  min-height: 1.7em;
+}
+.call-no {
+  text-align: right;
+  color: var(--ui-text-dimmed);
+  user-select: none;
+}
+.call-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.call-leads {
+  margin: 14px 0 0;
+}
+.call-leads > .console-lead {
+  margin: 0 0 6px;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+.call-leads .console-tag {
+  flex: none;
+  width: 4.5rem;
+  text-align: center;
+}
+.call-lead-value {
+  min-width: 0;
+  overflow: hidden;
+  font: inherit;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ui-text-highlighted);
+}
+.call-link {
+  margin-left: auto;
+  color: var(--ui-text-highlighted);
+}
+.call-link:hover {
+  color: var(--console-accent);
+}
+.call-link:focus-visible {
+  outline: 1px solid var(--ui-primary);
+  outline-offset: 3px;
+}
+</style>
