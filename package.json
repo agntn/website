@@ -17,9 +17,9 @@
   },
   "packageManager": "pnpm@11.3.0",
   "devDependencies": {
-    "@iconify-json/lucide": "1.2.128",
-    "@iconify-json/simple-icons": "1.2.94",
-    "@iconify-json/vscode-icons": "1.2.76",
+    "@iconify-json/lucide": "1.2.139",
+    "@iconify-json/simple-icons": "1.2.98",
+    "@iconify-json/vscode-icons": "1.2.84",
     "wrangler": "4.128.0"
   }
 }
