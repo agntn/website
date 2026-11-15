@@ -1,6 +1,4 @@
-packages:
-  - .
-
+# Without it the Worker bundle picks up sqlite-wasm for Nuxt Content, BigInt literals and all.
 shamefullyHoist: true
 
 allowBuilds:
@@ -8,3 +6,19 @@ allowBuilds:
   esbuild: true
   workerd: true
   vue-demi: true
+
+catalogs:
+  deps:
+    better-sqlite3: 12.11.1
+    docus: 5.15.0
+    nuxt: 4.6.4
+  dev:
+    "@iconify-json/lucide": 1.2.139
+    "@iconify-json/simple-icons": 1.2.98
+    "@iconify-json/vscode-icons": 1.2.84
+    wrangler: 4.128.0
+
+cleanupUnusedCatalogs: true
+
+# Keeps pnpm 12's env document out of the lockfile. GitHub reads that one as zero dependencies.
+pmOnFail: ignore

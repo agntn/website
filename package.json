@@ -11,15 +11,15 @@
     "deploy": "pnpm build && wrangler deploy"
   },
   "dependencies": {
-    "better-sqlite3": "12.11.1",
-    "docus": "5.15.0",
-    "nuxt": "4.6.4"
+    "better-sqlite3": "catalog:deps",
+    "docus": "catalog:deps",
+    "nuxt": "catalog:deps"
   },
-  "packageManager": "pnpm@11.3.0",
+  "packageManager": "pnpm@12.21.0",
   "devDependencies": {
-    "@iconify-json/lucide": "1.2.139",
-    "@iconify-json/simple-icons": "1.2.98",
-    "@iconify-json/vscode-icons": "1.2.84",
-    "wrangler": "4.128.0"
+    "@iconify-json/lucide": "catalog:dev",
+    "@iconify-json/simple-icons": "catalog:dev",
+    "@iconify-json/vscode-icons": "catalog:dev",
+    "wrangler": "catalog:dev"
   }
 }
