@@ -2,7 +2,8 @@
 /**
  * The page's table of contents, overriding Docus on wide screens: a section title like the instruments',
  * a rail of ticks on the left, numbered sections, and a square node in the accent on the headings in view.
- * Below `lg` the Nuxt UI toc and the Docus mobile bar stay, so the collapsible behaviour doesn't change.
+ * Below `lg` the Nuxt UI toc stays, so the collapsible behaviour doesn't change. The Docus mobile bar
+ * only serves sub-navigation, which this site doesn't have, so it isn't here.
  */
 import type { DocsCollectionItem } from "@nuxt/content";
 
@@ -104,7 +105,6 @@ function sectionActive(link: TocLink): boolean {
       </div>
     </nav>
 
-    <DocsAsideMobileBar :links="links" />
   </div>
 </template>
 

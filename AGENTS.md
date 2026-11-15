@@ -57,7 +57,7 @@ The directory has to be a git repository. Without one Tailwind's scanner skipped
 
 - `app/components/OgImage/Docs.takumi.vue` and `Landing.takumi.vue` override the Docus templates of the same name and are rendered by Takumi at build time. Takumi has no CSS variables, so the theme colours from `app.css` are repeated there as literals.
 - `app/assets/fonts.css` declares the five TTFs in `public/fonts` and `fonts.families` uses the `local` provider: the site and the OG images share the same files.
-- Keep the description in `content/index.md` free of a trailing period. Nitro refuses to write a prerender path containing `..` and the landing OG file is named from that description.
+- Since Docus 5.15 the OG files are named by a hash, so a description never reaches a file name and may end in a period.
 
 ## Constraints
 

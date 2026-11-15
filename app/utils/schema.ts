@@ -2,7 +2,8 @@ import { namedProviders, type LibraryInfo } from "./libraries";
 
 export const SITE_URL = "https://agntn.dev";
 
-export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
+/** The id `nuxt-schema-org` gives the landing's Organization node since Docus 5.15. */
+export const ORGANIZATION_ID = `${SITE_URL}/#identity`;
 
 /** JSON-LD for one published library: the repo as SoftwareSourceCode, published by the agntn Organization. */
 export function librarySchema(library: LibraryInfo) {
