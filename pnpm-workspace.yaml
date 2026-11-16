@@ -1,4 +1,3 @@
-# Without it the Worker bundle picks up sqlite-wasm for Nuxt Content, BigInt literals and all.
 shamefullyHoist: true
 
 allowBuilds:
@@ -13,9 +12,9 @@ catalogs:
     docus: 5.15.0
     nuxt: 4.6.4
   dev:
-    "@iconify-json/lucide": 1.2.139
-    "@iconify-json/simple-icons": 1.2.98
-    "@iconify-json/vscode-icons": 1.2.84
+    "@iconify-json/lucide": 1.2.154
+    "@iconify-json/simple-icons": 1.2.102
+    "@iconify-json/vscode-icons": 1.2.98
     wrangler: 4.128.0
 
 cleanupUnusedCatalogs: true
