@@ -6,9 +6,6 @@ settings:
 
 catalogs:
   deps:
-    better-sqlite3:
-      specifier: 12.11.1
-      version: 12.11.1
     docus:
       specifier: 5.15.0
       version: 5.15.0
@@ -33,9 +30,6 @@ importers:
 
   .:
     dependencies:
-      better-sqlite3:
-        specifier: catalog:deps
-        version: 12.11.1
       docus:
         specifier: catalog:deps
         version: 5.15.0(437330f43ad76b35311c4be0bdac1699)

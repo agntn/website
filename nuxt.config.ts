@@ -132,6 +132,10 @@ export default defineNuxtConfig({
       type: "d1",
       bindingName: "DB",
     },
+    /** Prerender runs on `node:sqlite`, no native build needed. */
+    experimental: {
+      sqliteConnector: "native",
+    },
     build: {
       markdown: {
         highlight: {
