@@ -2,14 +2,14 @@
 shamefullyHoist: true
 
 allowBuilds:
-  better-sqlite3: true
+  # Docus still drags it in as a peer. Nothing loads it.
+  better-sqlite3: false
   esbuild: true
   workerd: true
   vue-demi: true
 
 catalogs:
   deps:
-    better-sqlite3: 12.11.1
     docus: 5.15.0
     nuxt: 4.6.4
   dev:
