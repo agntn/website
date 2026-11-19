@@ -43,7 +43,7 @@ The directory has to be a git repository. Without one Tailwind's scanner skipped
 - `status` is `docs` (has a site), `npm` (published, README is the reference) or `soon` (nothing on npm yet). Only `docs` and `npm` rows get links, a `soon` card isn't a link at all.
 - `repo` says whether the GitHub repository is public. A package can be on npm while its repo stays private, so the GitHub link, the `codeRepository` in the JSON-LD and the wording of `## Status` all hang off that flag, not off `status`.
 - After editing the table run `pnpm libraries`. The generated pages are committed. Don't edit them by hand, the generator deletes and rewrites `NN.<key>.md`.
-- Provider lists mirror `src/providers` in each repo, surfaces mirror what the package ships (`bin`, `./ai`, the `mcp` command, `packages/pi`, `packages/omp`). Check the repo before changing a row, guessing here is how wrong facts end up on a public page.
+- Provider lists mirror what each package registers. Surfaces mirror what its `latest` on npm ships: `bin`, `./ai`, the `mcp` command, the `pi` and `omp` fields. Check the published package, not `main`. Guessing here is how wrong facts end up on a public page.
 - `LandingRotatingCode.vue` holds one call per published library. Every symbol has to exist in what that package exports, from the root or from the subpath the snippet names, and the call has to match its signature: `create()` is async in web, browsers and forges.
 
 ## SEO
