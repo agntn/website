@@ -6,7 +6,7 @@ import { tokens } from "../../utils/tokens";
 const props = defineProps<{ library: LibraryInfo }>();
 
 interface Snippet {
-  /** Imported symbol, named unless `defaultImport` is set. */
+  /** Imported symbols, named unless `defaultImport` is set. */
   symbol: string;
   /** Subpath after the package name, for a package that exports no root. */
   path?: string;
@@ -37,6 +37,23 @@ const SNIPPETS: Record<string, Snippet> = {
   browsers: { symbol: "create", setup: 'await create("steel")', call: 'scrape("https://nuxt.com")', result: "{ url, title, markdown, text, statusCode }" },
   urls: { symbol: "create", setup: 'await create("wayback")', call: 'discover("nuxt.com", { limit: 50 })', result: "[{ url, source, input, ext }], deduplicated and in scope" },
   lyrics: { symbol: "create", setup: 'create("lrclib")', call: 'lyrics({ artist: "Radiohead", track: "Nude" })', result: "{ provider, artist, track, plain, synced }" },
+  hashes: { symbol: "create", setup: 'create("sha256")', call: 'hash("abc")', result: '{ digest: "ba7816bf…15ad", algorithm, operation, encoding }' },
+  encodings: { symbol: "identify", setup: "", call: 'identify("JBSWY3DPEBLW64TMMQ======")', result: '[{ encoding: "base32", text: "Hello World", confidence, reasons }]' },
+  compressions: { symbol: "compress", setup: "", call: 'compress("lzma", "hello world!", { container: "xz" })', result: "Uint8Array(68), an xz stream with a CRC-64 check" },
+  curves: { symbol: "multiplyGenerator", path: "/secp256k1", setup: "", call: 'multiplyGenerator("03")', result: '"02f9308a…36f9", 3G as a compressed SEC1 point' },
+  tools: {
+    symbol: "defineTool, Type",
+    file: "slug.ts",
+    setup: "",
+    call: "",
+    exported:
+      'defineTool({ name: "text_slug", title: "Text Slug", description: "Lowercase a title.", effect: "read", input: Type.Object({ text: Type.String() }, { additionalProperties: false }), execute: ({ text }) => ({ content: [{ type: "text", text: text.toLowerCase() }] }) })',
+    result: "one tool, the same for MCP, Pi, OMP and the AI SDK",
+  },
+  memory: { symbol: "CloudflareMemoryProvider", setup: 'await new CloudflareMemoryProvider({ namespace: "notes" }).getProfile("team")', call: 'recall("What does the user prefer?")', result: "{ count, answer, candidates: [{ id, summary, score }] }" },
+  maps: { symbol: "create", setup: 'create("openstreetmap")', call: 'geocode("Pałac Kultury i Nauki, Warszawa", { limit: 1 })', result: "[{ latitude, longitude, displayName, address }]" },
+  books: { symbol: "create", setup: 'create("openlibrary")', call: 'search("dune frank herbert", { limit: 5 })', result: "[{ title, authors, year, id, isbn }]" },
+  credentials: { symbol: "resolve", path: "/github", setup: "", call: "resolve()", result: "{ token, source, origin } | null, from the gh login you already have" },
   ox: {
     symbol: "oxlint",
     path: "/oxlint",

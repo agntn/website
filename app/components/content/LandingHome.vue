@@ -88,7 +88,7 @@ function scriptTokens(line: string): Token[] {
       to="/about/conventions"
       link="Stack and conventions"
       :checks="[
-        'Node.js 22 or 24 and up per package, ESM only, strict TypeScript',
+        'Node.js 26 and up for every library, ESM only, strict TypeScript',
         'obuild, vitest, oxlint and oxfmt through the shared @agntn/ox policy',
         'Releases from GitHub Actions with npm trusted publishing, no tokens lying around',
       ]"

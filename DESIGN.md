@@ -10,7 +10,7 @@ The instruments agntn.dev owns:
 | [LandingLibrary.vue](app/components/content/LandingLibrary.vue) | under the hero | one published library: identity, its providers as cells, status and surfaces |
 | [LandingRotatingCode.vue](app/components/content/LandingRotatingCode.vue) | "Same calls, every library" | one real call per published library, as a file |
 | [SurfaceGrid.vue](app/components/content/SurfaceGrid.vue) | "Write once, run from any host", `/about`, `/about/surfaces` | the six surfaces as leads |
-| [LandingRegistry.vue](app/components/content/LandingRegistry.vue) | "5 domains, 22 libraries" | the whole catalogue as cells in one band per domain |
+| [LandingRegistry.vue](app/components/content/LandingRegistry.vue) | "N domains, N libraries" | the whole catalogue as cells in one band per domain |
 | [LandingStart.vue](app/components/content/LandingStart.vue) | closing section | install, notes, first call as a file |
 | [LibraryRoster.vue](app/components/content/LibraryRoster.vue) | `/libraries` | roster of the catalogue on `UTable`, sortable |
 | [LibraryFacts.vue](app/components/content/LibraryFacts.vue) | every library page | library dossier: ID bar with position, reticle, providers, surfaces, links |
@@ -24,11 +24,11 @@ The same mapping as web and registries: `UButton` primary solid and neutral outl
 
 ## Anatomy
 
-- **Library instrument.** Bar `ID @agntn/<key>` with `NN / 14` among the published ones, meta the domain and status. Subject band: reticle with the library glyph, `Library / <domain>`, the package in mono, its description. Under that `Providers [ one interface ]` as cells, name and node, a trailing `+N more` cell, and empty dotted slots up to the longest list so the height never moves. The readout beside it stretches to the same height: status, provider count in the accent, repository, docs, and a gauge with one tick per surface. Footer: previous and next, link to the library page.
+- **Library instrument.** Bar `ID @agntn/<key>` with `NN / N` among the published ones, meta the domain and status. Subject band: reticle with the library glyph, `Library / <domain>`, the package in mono, its description. Under that `Providers [ one interface ]` as cells, name and node, a trailing `+N more` cell, and empty dotted slots up to the longest list so the height never moves. The readout beside it stretches to the same height: status, provider count in the accent, repository, docs, and a gauge with one tick per surface. Footer: previous and next, link to the library page.
 - **Rotating file.** Bar `File <name>` with the package as meta. Every sample sits in the same grid cell with only the current one visible, so the file keeps the height of the longest. Lines end in an ellipsis, the copy button hands out the whole call. Leads `Install` and `Docs` under the file.
 - **Registry.** `List @agntn/*`, one band per domain titled with its blurb, a cell per library: glyph, key, node. Published is an accent outline, in progress a quiet one with a dimmed name, the library the landing is walking is a filled node. A `soon` cell isn't a link. Tooltip: package, status, description.
 - **Roster.** `@agntn/*` in the bar, catalogue order until a header is clicked. Columns: library, domain, what it covers, providers, and the status at the end of a dotted leader.
-- **Library dossier.** ID bar with the key and `NN / 22`, meta domain and status. Subject band: reticle, the install line as a boxed identifier (or `not on npm yet`), providers as cells under it. Readout: status, provider count and repository, gauge of surfaces. Bands `Surfaces [ same executors on each ]` with six cells and `Links [ docs · GitHub · npm ]` as leads, or one sentence for a private repo. The generated markdown under it keeps its lists, because `Copy page` and `llms-full.txt` read the markdown, not the component.
+- **Library dossier.** ID bar with the key and `NN / N`, meta domain and status. Subject band: reticle, the install line as a boxed identifier (or `not on npm yet`), providers as cells under it. Readout: status, provider count and repository, gauge of surfaces. Bands `Surfaces [ same executors on each ]` with six cells and `Links [ docs · GitHub · npm ]` as leads, or one sentence for a private repo. The generated markdown under it keeps its lists, because `Copy page` and `llms-full.txt` read the markdown, not the component.
 
 ## Motion
 
@@ -49,4 +49,4 @@ Departures from the shared rules, recorded for the shared package:
 
 ## Checks
 
-Beyond the shared checks: the landing at 1440, 1024, 390 and 320 px with the heights of the library instrument and the rotating file through all 14 samples, `/libraries`, one published and one `soon` library page, `/about`.
+Beyond the shared checks: the landing at 1440, 1024, 390 and 320 px with the heights of the library instrument and the rotating file through every sample, `/libraries`, one published and one `soon` library page, `/about`.
