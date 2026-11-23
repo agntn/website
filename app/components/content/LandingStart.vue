@@ -15,9 +15,9 @@ interface Line {
 const LINES: readonly Line[] = [
   { shell: true, text: INSTALL },
   { text: "" },
-  { text: 'import { create } from "@agntn/web";' },
+  { text: 'import { createSearchProvider } from "@agntn/web";' },
   { text: "" },
-  { text: 'const brave = await create("brave");' },
+  { text: 'const brave = await createSearchProvider("brave");' },
   { text: 'const results = await brave.search("typescript 7 native");' },
   { text: "// [{ url, title, snippet }], the same shape from every engine" },
 ];
@@ -27,8 +27,8 @@ const SNIPPET = LINES.map((line) => (line.shell ? `$ ${line.text}` : line.text))
 
 const NOTES = [
   { tag: "Pin", text: "Everything is before 1.0, so pin exact versions." },
-  { tag: "Keys", text: "Each provider reads its key from its own env var unless you hand one to create()." },
-  { tag: "Swap", text: "Change the string in create() and the rest of the file stays." },
+  { tag: "Keys", text: "Each provider reads its key from its own env var unless you hand one to createSearchProvider()." },
+  { tag: "Swap", text: "Change the string in createSearchProvider() and the rest of the file stays." },
 ] as const;
 </script>
 

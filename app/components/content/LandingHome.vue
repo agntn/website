@@ -55,7 +55,7 @@ function scriptTokens(line: string): Token[] {
       link="Library, CLI, AI SDK, MCP, Pi, OMP"
       :checks="[
         'CLI, MCP server and the Pi and OMP extensions share one set of tool executors',
-        'AI SDK tools come from the /ai subpath with Zod schemas, the host abort signal passed straight through',
+        'AI SDK tools come from the /ai subpath with JSON schemas, the host abort signal passed straight through',
         'Nothing bundled twice. The extension sources ship inside the npm package',
       ]"
       reverse

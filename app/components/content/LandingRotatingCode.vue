@@ -24,11 +24,11 @@ interface Snippet {
 }
 
 const SNIPPETS: Record<string, Snippet> = {
-  web: { symbol: "create", setup: 'await create("brave")', call: 'search("typescript 7 native", { maxResults: 5 })', result: "[{ url, title, snippet }], the same shape from every engine" },
-  archives: { symbol: "createArchive", setup: 'createArchive("wayback")', call: 'snapshots("nuxt.com", { limit: 10 })', result: "{ success: true, pages: [{ url, timestamp, snapshot }] }" },
-  registries: { symbol: "fetchPackageFromPURL", setup: "", call: 'fetchPackageFromPURL("pkg:npm/lodash")', result: "{ name, version, license, repository }" },
-  forges: { symbol: "createProvider", setup: 'await createProvider("github")', call: 'pullRequests.list("agntn", "web")', result: "{ items: [{ number, title, state }], hasNextPage }" },
-  keys: { symbol: "blockchains", setup: "await blockchains.bitcoin()()", call: "generateWallet()", result: "{ address, keyPublic, keyPrivate } as a Wallet" },
+  web: { symbol: "createSearchProvider", setup: 'await createSearchProvider("brave")', call: 'search("typescript 7 native", { maxResults: 5 })', result: "[{ url, title, snippet }], the same shape from every engine" },
+  archives: { symbol: "createArchive, providers", setup: "createArchive(providers.wayback())", call: 'snapshots("nuxt.com", { limit: 10 })', result: "{ success: true, pages: [{ url, timestamp, snapshot }] }" },
+  registries: { symbol: "fetchPackageFromPURL", setup: "", call: 'fetchPackageFromPURL("pkg:npm/lodash")', result: "{ name, latestVersion, licenses, repository }" },
+  forges: { symbol: "createProvider", setup: 'await createProvider("github")', call: 'pullRequests.list({ owner: "agntn", repo: "web" })', result: "{ items: [{ number, title, state }], nextCursor }" },
+  keys: { symbol: "blockchains", setup: "await blockchains.bitcoin()()", call: "generateWallet()", result: "{ keys: { private, public }, address } as a Wallet" },
   harnesses: { symbol: "detectHarness", setup: "", call: "detectHarness(process.cwd())", result: "Harness | null, with binary, config and session paths" },
   explorers: { symbol: "create", setup: 'await create("etherscan")', call: 'getBalance("0xd8dA…6045")', result: "{ address, chain, balance, fetchedAt }" },
   chains: { symbol: "identify", setup: "", call: 'identify("0xd8dA…6045")', result: "{ matches: [Ethereum, Base, …], unchecked: [] }" },
@@ -47,12 +47,12 @@ const SNIPPETS: Record<string, Snippet> = {
     setup: "",
     call: "",
     exported:
-      'defineTool({ name: "text_slug", title: "Text Slug", description: "Lowercase a title.", effect: "read", input: Type.Object({ text: Type.String() }, { additionalProperties: false }), execute: ({ text }) => ({ content: [{ type: "text", text: text.toLowerCase() }] }) })',
+      'defineTool({ name: "text_slug", title: "Text Slug", description: "Lowercase a title.", effect: "read", input: Type.Object({ text: Type.String() }, { additionalProperties: false }), execute: ({ text }) => ({ content: [{ type: "text", text: text.toLowerCase() }], details: {} }) })',
     result: "one tool, the same for MCP, Pi, OMP and the AI SDK",
   },
   memory: { symbol: "CloudflareMemoryProvider", setup: 'await new CloudflareMemoryProvider({ namespace: "notes" }).getProfile("team")', call: 'recall("What does the user prefer?")', result: "{ count, answer, candidates: [{ id, summary, score }] }" },
   maps: { symbol: "create", setup: 'create("openstreetmap")', call: 'geocode("Pałac Kultury i Nauki, Warszawa", { limit: 1 })', result: "[{ latitude, longitude, displayName, address }]" },
-  books: { symbol: "create", setup: 'create("openlibrary")', call: 'search("dune frank herbert", { limit: 5 })', result: "[{ title, authors, year, id, isbn }]" },
+  books: { symbol: "searchAll", setup: "", call: 'searchAll("dune frank herbert", { limit: 5 })', result: "[{ provider, result: [{ title, authors, year }] }] per catalog" },
   credentials: { symbol: "resolve", path: "/github", setup: "", call: "resolve()", result: "{ token, source, origin } | null, from the gh login you already have" },
   ox: {
     symbol: "oxlint",
