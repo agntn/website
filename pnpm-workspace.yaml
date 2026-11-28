@@ -11,12 +11,12 @@ allowBuilds:
 catalogs:
   deps:
     docus: 5.15.0
-    nuxt: 4.6.4
+    nuxt: 4.7.0
   dev:
     "@iconify-json/lucide": 1.2.139
     "@iconify-json/simple-icons": 1.2.98
     "@iconify-json/vscode-icons": 1.2.84
-    wrangler: 4.128.0
+    wrangler: 4.168.0
 
 cleanupUnusedCatalogs: true
 
