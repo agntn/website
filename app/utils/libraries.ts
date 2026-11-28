@@ -96,7 +96,7 @@ export const LIBRARIES: readonly LibraryInfo[] = [
     icon: "i-lucide-git-branch",
     site: "https://forges.agntn.dev",
     repo: true,
-    providers: ["GitHub", "GitLab", "Gitea", "Bitbucket", "Gitee", "Azure DevOps", "GitBucket", "Cloudflare Artifacts"],
+    providers: ["GitHub", "GitLab", "Gitea", "Bitbucket", "Gitee", "Azure DevOps", "GitCafe", "Pushin", "Tangled", "GitBucket", "Cloudflare Artifacts"],
     surfaces: ["library", "cli", "ai", "mcp", "pi", "omp"],
   }),
   define({
@@ -118,8 +118,8 @@ export const LIBRARIES: readonly LibraryInfo[] = [
     icon: "i-lucide-bot",
     site: "https://harnesses.agntn.dev",
     repo: true,
-    providers: ["Claude Code", "Codex", "Gemini CLI", "Cursor", "GitHub Copilot", "OpenCode", "Grok", "Antigravity", "Kilo Code", "Pi", "OMP", "MastraCode", "Freebuff", "Prime Agent", "OpenBot"],
-    surfaces: ["library", "cli", "mcp", "pi", "omp"],
+    providers: ["Claude Code", "Codex", "Gemini CLI", "Cursor", "GitHub Copilot", "OpenCode", "Grok", "Antigravity", "Kilo Code", "Hermes Agent", "Mistral Vibe", "Pi", "OMP", "MastraCode", "Freebuff", "Prime Agent", "OpenBot"],
+    surfaces: ["library", "cli", "ai", "mcp", "pi", "omp"],
   }),
   define({
     key: "explorers",
@@ -163,7 +163,7 @@ export const LIBRARIES: readonly LibraryInfo[] = [
     site: "https://puzzles.agntn.dev",
     repo: true,
     providers: ["Bitcoin puzzle transaction", "RushWallet", "Zden", "Arweave", "WarpWallet", "Hash collision", "Ballet", "Bitimage", "Bitaps", "GSMG.io", "Bitcoin Movie Enigma", "+40"],
-    surfaces: ["library", "cli", "mcp", "pi", "omp"],
+    surfaces: ["library", "cli", "ai", "mcp", "pi", "omp"],
   }),
   define({
     key: "browsers",
@@ -233,13 +233,13 @@ export const LIBRARIES: readonly LibraryInfo[] = [
   }),
   define({
     key: "tools",
-    description: "One tool definition for MCP, Pi, OMP and the Vercel AI SDK, with input validation on every host. One definition leaves less room for drift.",
+    description: "One tool definition for MCP, Pi, OMP, OpenCode and the Vercel AI SDK, with input validation on every host. One definition leaves less room for drift.",
     group: "agents",
     status: "docs",
     icon: "i-lucide-hammer",
     site: "https://tools.agntn.dev",
     repo: true,
-    providers: ["MCP", "Pi", "OMP", "Vercel AI SDK", "h3-mcp", "CLI"],
+    providers: ["MCP", "Pi", "OMP", "OpenCode", "Vercel AI SDK", "h3-mcp", "CLI"],
     surfaces: ["library"],
   }),
   define({
@@ -310,14 +310,25 @@ export const LIBRARIES: readonly LibraryInfo[] = [
   }),
   define({
     key: "sessions",
-    description: "Reads AI coding sessions across harnesses in one shape, so one tool can search what another one said.",
+    description: "Reads coding harness conversations from disk into common Session, Message and Block shapes. Reading a conversation doesn't resume it.",
     group: "agents",
-    status: "soon",
+    status: "npm",
     icon: "i-lucide-history",
     site: null,
-    repo: false,
-    providers: ["Claude Code", "Codex", "Gemini CLI", "Pi", "OMP", "AEI", "Mastra", "OpenClaw", "OpenCode"],
-    surfaces: ["library", "cli", "mcp", "pi", "omp"],
+    repo: true,
+    providers: ["Claude Code", "Codex", "Gemini CLI", "Grok", "Hermes Agent", "Mastra", "Mistral Vibe", "OMP", "OpenBot", "OpenClaw", "OpenCode", "Pi"],
+    surfaces: ["library", "cli", "ai", "mcp", "pi", "omp"],
+  }),
+  define({
+    key: "databases",
+    description: "Schema, queries and query plans for SQLite, Postgres and Cloudflare D1 through one interface. Reads can't quietly become writes.",
+    group: "data",
+    status: "npm",
+    icon: "i-lucide-table-2",
+    site: null,
+    repo: true,
+    providers: ["SQLite", "Postgres", "Cloudflare D1"],
+    surfaces: ["library", "cli", "ai", "mcp", "pi", "omp"],
   }),
   define({
     key: "nodes",
@@ -370,7 +381,7 @@ export const GROUPS: readonly { readonly key: LibraryGroup; readonly label: stri
   { key: "code", label: "Code", blurb: "Registries, forges, credentials and shared tooling." },
   { key: "chain", label: "Chains", blurb: "Keys, curves, nodes, explorers, puzzles and NFT data." },
   { key: "agents", label: "Agents", blurb: "Harnesses, tools, sessions, memory and wiki." },
-  { key: "data", label: "Data", blurb: "Ciphers, hashes, encodings, compressions, maps, lyrics, books and storage." },
+  { key: "data", label: "Data", blurb: "Ciphers, hashes, encodings, compressions, maps, lyrics, books, databases and storage." },
 ];
 
 export const SURFACES: readonly { readonly key: string; readonly label: string; readonly blurb: string; readonly icon: string }[] = [

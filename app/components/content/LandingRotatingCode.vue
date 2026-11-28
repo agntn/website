@@ -54,6 +54,8 @@ const SNIPPETS: Record<string, Snippet> = {
   maps: { symbol: "create", setup: 'create("openstreetmap")', call: 'geocode("Pałac Kultury i Nauki, Warszawa", { limit: 1 })', result: "[{ latitude, longitude, displayName, address }]" },
   books: { symbol: "searchAll", setup: "", call: 'searchAll("dune frank herbert", { limit: 5 })', result: "[{ provider, result: [{ title, authors, year }] }] per catalog" },
   credentials: { symbol: "resolve", path: "/github", setup: "", call: "resolve()", result: "{ token, source, origin } | null, from the gh login you already have" },
+  sessions: { symbol: "create", setup: 'create("claude")', call: "list()", result: "[{ id, source, updatedAt, messages }], newest first" },
+  databases: { symbol: "open", setup: 'await open("shop.db")', call: 'query("SELECT id, total FROM orders", { limit: 5 })', result: "{ columns, rows, more, cut }, and a write would be refused" },
   ox: {
     symbol: "oxlint",
     path: "/oxlint",
