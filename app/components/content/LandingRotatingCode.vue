@@ -48,7 +48,7 @@ const SNIPPETS: Record<string, Snippet> = {
     call: "",
     exported:
       'defineTool({ name: "text_slug", title: "Text Slug", description: "Lowercase a title.", effect: "read", input: Type.Object({ text: Type.String() }, { additionalProperties: false }), execute: ({ text }) => ({ content: [{ type: "text", text: text.toLowerCase() }], details: {} }) })',
-    result: "one tool, the same for MCP, Pi, OMP and the AI SDK",
+    result: "one tool, the same for MCP, Pi, OMP, OpenCode and the AI SDK",
   },
   memory: { symbol: "CloudflareMemoryProvider", setup: 'await new CloudflareMemoryProvider({ namespace: "notes" }).getProfile("team")', call: 'recall("What does the user prefer?")', result: "{ count, answer, candidates: [{ id, summary, score }] }" },
   maps: { symbol: "create", setup: 'create("openstreetmap")', call: 'geocode("Pałac Kultury i Nauki, Warszawa", { limit: 1 })', result: "[{ latitude, longitude, displayName, address }]" },
